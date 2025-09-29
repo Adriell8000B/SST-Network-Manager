@@ -1,14 +1,22 @@
 from flask import Flask
-from abstracts.abstracts import IRouter
+from abstracts.abstracts import IDatabase, IRouter
 
 class Server:
-	def __init__(self, flask: Flask, router: IRouter, PORT: int) -> None:
+	def __init__(
+		self,
+		flask: Flask, 
+		router: IRouter,
+		database: IDatabase,
+		PORT: int
+) -> None:
 		self._flask = flask
 		self._router = router
+		self._database = database
 		self._PORT = PORT
 	
 	def _setup(self) -> None:
 		self._router.setup_routes()
+		self._database.setup_database()
 	
 	def _listen(self):
 		try:
