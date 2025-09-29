@@ -8,5 +8,14 @@ class IRouter(ABC):
 
 class IMongoFactory(ABC):
 	@abstractmethod
-	def create_async_client(self) -> AsyncMongoClient:
+	@staticmethod
+	def create_async_client(uri: str) -> AsyncMongoClient:
+		pass
+
+class IDatabase(ABC):
+	@abstractmethod
+	def _connect(self) -> None:
+		pass
+
+	def setup_database(self) -> None:
 		pass
