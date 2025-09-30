@@ -10,10 +10,16 @@ generator client {
 }
 
 model movies {
-  id String @id @map("_id")
+  id           String @id @map("_id")
   movie_banner String
   movie_rating String
   movie_name   String
   movie_year   Int
   movie_genre  String
+}
+
+model users {
+  id         String @id @map("_id")
+  user_name  String
+  user_password String
 }
