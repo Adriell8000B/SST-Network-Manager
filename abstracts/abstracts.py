@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Any, Coroutine, List
 
 from prisma.models import users
 
@@ -18,5 +18,10 @@ class IDatabase(ABC):
 
 class IUserRepository(ABC):
 	@abstractmethod
-	async def get_users(self) -> List[users]:
+	async def retrieve_users(self) -> List[users]:
+		pass
+
+class IUserController(ABC):
+	@abstractmethod
+	def get_users(self) -> Coroutine[Any, Any, List[users]]:
 		pass
