@@ -10,10 +10,10 @@ class IRouter(ABC):
 
 class IDatabase(ABC):
 	@abstractmethod
-	def _connect(self) -> None:
+	async def _connect(self) -> None:
 		pass
 
-	def setup_database(self) -> None:
+	async def setup_database(self) -> None:
 		pass
 
 class IUserRepository(ABC):
