@@ -1,0 +1,19 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+// generator
+generator client {
+  provider             = "prisma-client-py"
+  recursive_type_depth = 5
+}
+
+model movies {
+  id String @id @map("_id")
+  movie_banner String
+  movie_rating String
+  movie_name   String
+  movie_year   Int
+  movie_genre  String
+}

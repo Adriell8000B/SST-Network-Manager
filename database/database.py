@@ -1,16 +1,15 @@
 from abstracts.abstracts import IDatabase
-from factories.mongo_factory import MongoFactory
+from prisma import Prisma
 
 class Database(IDatabase):
-	def __init__(self, uri: str) -> None:
-		self._uri = uri
-		self._mongo_client = MongoFactory.create_async_client(self._uri)
-	
+	def __init__(self, prisma: Prisma) -> None:
+		self._prisma = prisma
+
 	def _connect(self) -> None:
-		try:
-			self._mongo_client.get_default_database()
-		except Exception as error:
-			print(f"Coudln't connect to MongoDB due to an error: {error}")
-	
+		error = self._prisma.connect()
+
+		if error != None:
+			print(f"There was an error while connecting to mongodb: {error}")
+
 	def setup_database(self) -> None:
 		self._connect()
