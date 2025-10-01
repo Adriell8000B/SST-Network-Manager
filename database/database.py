@@ -1,15 +1,17 @@
-from abstracts.abstracts import IDatabase
 from prisma import Prisma
+
+from abstracts.abstracts import IDatabase
 
 class Database(IDatabase):
 	def __init__(self, prisma: Prisma) -> None:
-		self._prisma = prisma
+		self.__prisma = prisma
 
 	async def _connect(self) -> None:
-		error = await self._prisma.connect()
-
-		if error != None:
-			print(f"There was an error while connecting to mongodb: {error}")
+		if not self.__prisma.is_connected():
+			try:
+				await self.__prisma.connect()
+			except Exception as e:
+				print(f"Couldn't connect to db: {e}")
 
 	async def setup_database(self) -> None:
 		await self._connect()
