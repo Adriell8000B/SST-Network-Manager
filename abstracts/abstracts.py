@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Any, Coroutine, List
+from typing import Any
 
-from prisma.models import users
+from flask import Response
 
 class IRouter(ABC):
 	@abstractmethod
@@ -18,10 +18,10 @@ class IDatabase(ABC):
 
 class IUserRepository(ABC):
 	@abstractmethod
-	async def retrieve_users(self) -> List[users]:
+	async def retrieve_users(self) -> list[dict[str, Any]]:
 		pass
 
 class IUserController(ABC):
 	@abstractmethod
-	def get_users(self) -> Coroutine[Any, Any, List[users]]:
+	async def get_users(self) -> Response:
 		pass
