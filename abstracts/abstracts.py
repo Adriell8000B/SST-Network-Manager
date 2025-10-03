@@ -11,7 +11,7 @@ class IRouter(ABC):
 
 class IDatabase(ABC):
 	@abstractmethod
-	async def __connect(self) -> None:
+	async def _connect(self) -> None:
 		pass
 
 	async def setup_database(self) -> None:
