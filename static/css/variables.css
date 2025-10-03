@@ -1,0 +1,11 @@
+:root {
+	--white: #FFFFFF;
+	--white-50: #ffffff1D;
+
+	--font-w-normal: 400;
+	--font-w-bold: bold;
+
+	--font-s-small: 1em;
+	--font-s-medium: 1.1em;
+	--font-s-large: 2.5em;
+}
