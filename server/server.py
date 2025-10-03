@@ -1,7 +1,6 @@
 from flask import Flask
+
 from abstracts.abstracts import IDatabase, IRouter
-from hypercorn.config import Config
-from hypercorn.asyncio import serve
 
 class Server:
 	def __init__(
@@ -16,19 +15,13 @@ class Server:
 		self._database = database
 		self._PORT = PORT
 	
-	async def _setup(self) -> None:
+	async def __setup(self) -> None:
 		self._router.setup_routes()
 		await self._database.setup_database()
-
-	async def _listen(self):
-		config = Config()
-		config.bind = [f"0.0.0.0:{self._PORT}"]
-
-		try:
-			await serve(self._flask, config)
-		except Exception as error:
-			print(f"Hey {error}")
+	
+	def __listen(self):
+		self._flask.run(None, self._PORT, debug=True)
 
 	async def init(self):
-		await self._setup()
-		await self._listen()
+		await self.__setup()
+		self.__listen()

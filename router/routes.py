@@ -1,15 +1,15 @@
-from flask import Blueprint, render_template
+from flask import render_template
 
-blueprint = Blueprint(
-	"routes",
-	__name__, 
-	template_folder="../templates",
-)
+from abstracts.abstracts import IUserController
 
-@blueprint.route("/")
-def index():
-	return render_template("index.html")
+def create_view_functions(controller: IUserController):
+	async def users_view():
+		return await controller.get_users()
 
-@blueprint.route("/foo")
-def foo():
-	return render_template("foo.html")
+	def login_view():
+		return render_template("login.html")
+	
+	return {
+		"users": users_view,
+		"login": login_view
+	}
