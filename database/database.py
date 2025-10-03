@@ -6,7 +6,7 @@ class Database(IDatabase):
 	def __init__(self, prisma: Prisma) -> None:
 		self.__prisma = prisma
 
-	async def _connect(self) -> None:
+	async def __connect(self) -> None:
 		if not self.__prisma.is_connected():
 			try:
 				await self.__prisma.connect()
@@ -14,4 +14,4 @@ class Database(IDatabase):
 				print(f"Couldn't connect to db: {e}")
 
 	async def setup_database(self) -> None:
-		await self._connect()
+		await self.__connect()
