@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 from flask import Response
+import prisma
 
 class IRouter(ABC):
 	@abstractmethod
@@ -19,6 +20,12 @@ class IDatabase(ABC):
 class IUserRepository(ABC):
 	@abstractmethod
 	async def retrieve_users(self) -> list[dict[str, Any]]:
+		pass
+
+	@abstractmethod
+	async def create_user(
+		self, _user_name: str,
+		_user_password: str) -> prisma.models.users:
 		pass
 
 class IUserController(ABC):
