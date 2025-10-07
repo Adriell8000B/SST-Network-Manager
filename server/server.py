@@ -1,26 +1,29 @@
 from flask import Flask
 
-from abstracts.abstracts import IDatabase, IRouter
+from abstracts.abstracts import ICors, IDatabase, IRouter
 
 class Server:
 	def __init__(
 		self,
-		flask: Flask, 
+		flask: Flask,
+		cors: ICors,
 		router: IRouter,
 		database: IDatabase,
 		PORT: int
 ) -> None:
-		self._flask = flask
-		self._router = router
-		self._database = database
-		self._PORT = PORT
+		self.__flask = flask
+		self.__cors = cors
+		self.__router = router
+		self.__database = database
+		self.__PORT = PORT
 	
 	async def __setup(self) -> None:
-		self._router.setup_routes()
-		await self._database.setup_database()
-	
+		self.__cors.setup_cors()
+		self.__router.setup_routes()
+		await self.__database.setup_database()
+
 	def __listen(self):
-		self._flask.run(None, self._PORT, debug=True)
+		self.__flask.run(None, self.__PORT, debug=True)
 
 	async def init(self):
 		await self.__setup()
