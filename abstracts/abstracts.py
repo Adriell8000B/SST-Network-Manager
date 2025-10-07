@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Union
 
 from flask import Response
 import prisma
@@ -25,10 +25,14 @@ class IUserRepository(ABC):
 	@abstractmethod
 	async def create_user(
 		self, _user_name: str,
-		_user_password: str) -> prisma.models.users:
+		_user_password: str) -> Union[prisma.models.users, str]:
 		pass
 
 class IUserController(ABC):
 	@abstractmethod
 	async def get_users(self) -> Response:
+		pass
+
+	@abstractmethod
+	async def add_user(self) -> Union[None, str]:
 		pass
