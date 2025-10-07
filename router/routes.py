@@ -5,11 +5,11 @@ from abstracts.abstracts import IUserController
 def create_view_functions(controller: IUserController):
 	async def users_view():
 		return await controller.get_users()
-
-	def login_view():
-		return render_template("login.html")
+	
+	async def add_user():
+		return await controller.add_user()
 	
 	return {
 		"users": users_view,
-		"login": login_view
+		"add-user": add_user
 	}
