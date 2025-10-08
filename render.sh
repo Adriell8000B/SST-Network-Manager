@@ -10,27 +10,29 @@ echo "Installing Python dependencies..."
 pip install -r requirements.txt
 
 ## 2. Fetch the Prisma Binary
-# This downloads the query engine binary specific to the environment (debian-openssl-3.0.x on Render).
+# This downloads the query engine binary specific to the environment.
 echo "Fetching Prisma Query Engine binary..."
 prisma py fetch
 
-## 3. Find the Final Binary Path
-# The 'prisma py path' command outputs the exact location where the application 
-# expects to find the query engine binary.
-echo "Determining the target path for the binary..."
-PRISMA_ENGINE_PATH=$(prisma py path)
+## 3. Find the Final Binary Path using Python
+# This Python command finds the directory where the Prisma client is installed.
+# We assume the query engine is in the subdirectory 'binaries' within the package installation.
+PRISMA_CLIENT_DIR=$(python -c "import prisma; import os; print(os.path.dirname(prisma.__file__))")
+ENGINE_NAME="prisma-query-engine-debian-openssl-3.0.x"
 
-# This command extracts the directory of the query engine binary.
-DOWNLOADED_DIR=$(dirname "$PRISMA_ENGINE_PATH")
+# We must now try to locate the engine within the downloaded cache structure.
+# A simpler and more direct approach for the shell environment is often a glob search:
+DOWNLOADED_ENGINE=$(find /opt/render/.cache/prisma-python/binaries/ -name "$ENGINE_NAME" 2>/dev/null | head -n 1)
 
-## 4. Copy the Binary to a Well-Known Location (Project Root)
-# Copying the binary to a known location, like the project root (.), often resolves 
-# runtime pathing issues when gunicorn starts the application.
-if [ -f "$PRISMA_ENGINE_PATH" ]; then
-	cp "$PRISMA_ENGINE_PATH" ./
-	echo "Successfully copied Query Engine to the project root: $(basename "$PRISMA_ENGINE_PATH")"
+## 4. Copy the Binary to the Project Root
+# Copying the binary to the project root (./) is the most common way to resolve 
+# pathing issues in container deployments like Render.
+if [ -f "$DOWNLOADED_ENGINE" ]; then
+    cp "$DOWNLOADED_ENGINE" ./
+    echo "Successfully copied Query Engine to the project root: $(basename "$DOWNLOADED_ENGINE")"
 else
-    echo "Warning: Prisma Query Engine binary not found at the expected path: $PRISMA_ENGINE_PATH"
+    echo "ERROR: Prisma Query Engine binary not found! Check the 'prisma py fetch' output."
+    exit 1
 fi
 
 echo "--- Build Script Finished Successfully 🎉 ---"
