@@ -17,6 +17,10 @@ class Server:
 		self.__database = database
 		self.__PORT = PORT
 	
+	def setup_wsgi(self) -> None:
+		self.__cors.setup_cors()
+		self.__router.setup_routes()
+
 	async def __setup(self) -> None:
 		self.__cors.setup_cors()
 		self.__router.setup_routes()

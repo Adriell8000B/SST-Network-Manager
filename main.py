@@ -33,5 +33,17 @@ server = Server(
 	int(get_env_string("PORT"))
 )
 
+# Production environment
+
+server.setup_wsgi()
+
+try:
+	run(database.setup_database())
+except Exception as error:
+	print(f"Couldn't connect due to an error: {error}")
+	raise
+
+# Development environment
+
 if __name__ == "__main__":
 	run(server.init())
