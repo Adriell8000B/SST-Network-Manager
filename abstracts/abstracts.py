@@ -36,3 +36,8 @@ class IUserController(ABC):
 	@abstractmethod
 	async def add_user(self) -> Union[None, str]:
 		pass
+
+class ICors(ABC):
+	@abstractmethod
+	def setup_cors(self) -> None:
+		pass

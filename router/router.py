@@ -10,5 +10,5 @@ class Router(IRouter):
 		self._views = create_view_functions(self._user_controller)
 
 	def setup_routes(self):
-		self._flask.route("/", methods=["GET"])(self._views["users"])
-		self._flask.route("/user/add", methods=["POST"])(self._views["add-user"])
+		self._flask.route("/api/", methods=["GET"])(self._views["users"])
+		self._flask.route("/api/user/add/", methods=["POST"])(self._views["add-user"])
