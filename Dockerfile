@@ -18,14 +18,6 @@ COPY prisma ./prisma
 RUN MONGODB_URI="mongodb://placeholder:27017/db" pip install --no-cache-dir -r requirements.txt && \
 		prisma generate
 
-COPY abstracts ./abstracts
-COPY controllers ./controllers
-COPY database ./database
-COPY middlewares ./middlewares
-COPY repositories ./repositories
-COPY router ./router
-COPY server ./server
-COPY utils ./utils
-COPY main.py ./
+COPY . .
 
 CMD [ "gunicorn", "-w", "1", "main:flask" ]
