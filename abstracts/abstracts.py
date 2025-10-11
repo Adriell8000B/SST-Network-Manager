@@ -19,13 +19,19 @@ class IDatabase(ABC):
 
 class IUserRepository(ABC):
 	@abstractmethod
-	async def retrieve_users(self) -> list[dict[str, Any]]:
+	async def retrieve_users(self) -> Union[list[dict[str, Any]], str]:
 		pass
 
 	@abstractmethod
 	async def create_user(
-		self, _user_name: str,
-		_user_password: str) -> Union[prisma.models.users, str]:
+		self,
+		_user_name: str,
+		_user_password: str
+	)-> Union[prisma.models.users, str]:
+		pass
+
+	@abstractmethod
+	async def remove_user(self, user_id: str) -> Union[None, str]:
 		pass
 
 class IUserController(ABC):
@@ -34,7 +40,7 @@ class IUserController(ABC):
 		pass
 
 	@abstractmethod
-	async def add_user(self) -> Union[None, str]:
+	async def add_user(self) -> Response:
 		pass
 
 class ICors(ABC):
