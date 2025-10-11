@@ -15,7 +15,8 @@ COPY requirements.txt ./
 COPY requirements.in ./
 
 COPY prisma ./prisma
-RUN MONGODB_URI="mongodb://placeholder:27017/db" pip install --no-cache-dir -r requirements.txt && \
+RUN MONGODB_URI="mongodb://placeholder:27017/db" \ 
+		pip install --no-cache-dir -r requirements.txt && \
 		prisma generate
 
 COPY . .
