@@ -40,7 +40,7 @@ class IUserController(ABC):
 		pass
 
 	@abstractmethod
-	async def add_user(self) -> Union[None, str]:
+	async def add_user(self) -> Response:
 		pass
 
 class ICors(ABC):
