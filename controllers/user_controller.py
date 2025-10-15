@@ -25,8 +25,9 @@ class UserController(IUserController):
 		try:
 			user_name = request.form["username"]
 			user_password = request.form["password"]
+			user_ip = str(request.remote_addr)
 
-			await self.__user_repository.create_user(user_name, user_password)
+			await self.__user_repository.create_user(user_name, user_password, user_ip)
 			return jsonify("User created!")
 
 		except Exception as error:
