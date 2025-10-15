@@ -26,7 +26,8 @@ class IUserRepository(ABC):
 	async def create_user(
 		self,
 		_user_name: str,
-		_user_password: str
+		_user_password: str,
+		_user_ip: str
 	)-> Union[prisma.models.users, str]:
 		pass
 
@@ -41,6 +42,10 @@ class IUserController(ABC):
 
 	@abstractmethod
 	async def add_user(self) -> Response:
+		pass
+
+	@abstractmethod
+	async def delete_user(self) -> Response:
 		pass
 
 class ICors(ABC):

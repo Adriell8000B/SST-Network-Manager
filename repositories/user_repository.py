@@ -16,12 +16,18 @@ class UserRepository(IUserRepository):
 		except Exception as error:
 			return error.__class__.__name__
 
-	async def create_user(self, _user_name: str, _user_password: str) -> Union[users, str]:
+	async def create_user(
+			self,
+			_user_name: str,
+			_user_password: str,
+			_user_ip: str
+		) -> Union[users, str]:
 		try:
 			new_user = await self.__prisma.users.create(
 				data={
 					"user_name": _user_name,
-					"user_password": _user_password
+					"user_password": _user_password,
+					"user_ip": _user_ip
 				})
 
 			return new_user
