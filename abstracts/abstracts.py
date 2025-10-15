@@ -48,6 +48,11 @@ class IUserController(ABC):
 	async def delete_user(self) -> Response:
 		pass
 
+class IAuthController(ABC):
+	@abstractmethod
+	async def login(self) -> None:
+		pass
+
 class ICors(ABC):
 	@abstractmethod
 	def setup_cors(self) -> None:
